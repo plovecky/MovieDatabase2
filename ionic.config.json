@@ -1,0 +1,7 @@
+{
+  "name": "movieDatabase3",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
