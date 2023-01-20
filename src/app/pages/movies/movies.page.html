@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+      <ion-title>Movies</ion-title>  
+    <ion-button slot="end" fill="clear" id="open-modal" expand="block">
+      <ion-icon name="funnel-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content center>
+  <div class="red">
+    <ion-row>
+      <ion-col size="9">
+        <ion-searchbar color="light" (ionFocus)="toggleSearch()" (search)="submitSearch($event)"></ion-searchbar>
+      </ion-col>
+      <ion-col size="1">
+        <ion-button fill="clear" color="light" (click)="refresh()">clear</ion-button>    
+      </ion-col>
+      
+    
+    </ion-row>
+    
+  </div>
+  <!--filmy-->
+  <ion-list *ngIf="checkedGenres.length == 0">
+    <ion-item button *ngFor="let item of movies" [routerLink]="[item.id]">
+      <ion-avatar slot="start">
+        <img [src]="imageBaseUrl + '/w92' + item.poster_path">
+      </ion-avatar>
+      <ion-label>
+        {{ item.title }}
+        <p>{{ item.release_date | date: "y"}}</p>
+      </ion-label>
+      <ion-badge id="sleduj" slot="end" color="medium">{{ item.vote_average }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <!--filtrovane filmy-->
+  <ion-list *ngIf="checkedGenres.length != 0">
+    <ion-item button *ngFor="let item of filtrMovies" [routerLink]="[item.id]">
+      <ion-avatar slot="start">
+        <img [src]="imageBaseUrl + '/w92' + item.poster_path">
+      </ion-avatar>
+      <ion-label>
+        {{ item.title }}
+        <p>{{ item.release_date | date: "y"}}</p>
+      </ion-label>
+      <ion-badge id="sleduj" slot="end" color="medium">{{ item.vote_average }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+
+  <!--Modal - výber žánrů-->
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Genres</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item  *ngFor="let item of genres">
+          <ion-checkbox slot="start" [(ngModel)]="item.isChecked"></ion-checkbox>
+          <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+        
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  
+
+  <!--načítání dalších stránek při scrollování-->
+  <ion-infinite-scroll (ionInfinite)="loadMore($any($event))">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

@@ -1,0 +1,25 @@
+ion-menu-button {
+    color: var(--ion-color-primary);
+  }
+  
+  ion-avatar {
+    --border-radius: 10px;
+  }
+  
+  
+  ion-searchbar{
+    --border-radius: 15px;
+    max-width: 95%;
+    padding: 0;
+    margin: auto;
+  
+  }
+  
+  .red{
+    background-color: var(--ion-color-primary);
+  }
+  
+  
+  ion-toolbar{
+    min-height: 3em;
+  }
